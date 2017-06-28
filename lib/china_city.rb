@@ -10,6 +10,7 @@ module ChinaCity
     def list(parent_id='000000', options = {})
       parent_id ||= '000000'
       show_all = options[:show_all] || false
+      is_simple = options[:is_simple] || false
 
       result = []
       return result if parent_id.blank?
@@ -24,9 +25,12 @@ module ChinaCity
         next if (!show_all && children[id][:sensitive_areas])
         result.push [children[id][:text], id]
       end
+      if is_simple && result.first.first == '市辖区'
+        result = [[get(province_id)]]
+      else
+        result.sort! {|a, b| a[1] <=> b[1]}
+      end
 
-      #sort
-      result.sort! {|a, b| a[1] <=> b[1]}
       result
     end
 
