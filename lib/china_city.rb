@@ -26,7 +26,7 @@ module ChinaCity
         result.push [children[id][:text], id]
       end
       if is_simple && result.first.first == '市辖区'
-        result = [[get(province_id)]]
+        result = [[get(province_id), result.first[1]]]
       else
         result.sort! {|a, b| a[1] <=> b[1]}
       end
